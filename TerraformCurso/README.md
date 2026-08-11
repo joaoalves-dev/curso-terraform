@@ -10,12 +10,12 @@ Projeto de **Infraestrutura como Código (IaC)** utilizando Terraform para provi
 
 ## 📋 Índice
 
-- [Sobre o Projeto](#-sobre-o-projeto)
-- [Arquitetura](#-arquitetura)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Recursos Provisionados](#-recursos-provisionados)
-- [Pré-requisitos](#-pré-requisitos)
-- [Autor](#-autor)
+- [Sobre o Projeto](#-sobre-o-projeto)        → ## 💡 Sobre o Projeto
+- [Arquitetura](#-arquitetura)                 → ## 🏗️ Arquitetura
+- [Estrutura do Projeto](#-estrutura-do-projeto) → ## 📁 Estrutura do Projeto
+- [Recursos Provisionados](#-recursos-provisionados) → ## 🎯 Recursos Provisionados
+- [Pré-requisitos](#-pré-requisitos)           → ## 🔧 Pré-requisitos
+- [Autor](#-autor)                             → ## 👤 Autor
 
 ---
 
@@ -36,6 +36,8 @@ Este projeto provisiona uma **infraestrutura completa na AWS** usando Terraform,
 ---
 
 ## 🏗️ Arquitetura
+
+```text
                          ┌─────────────────────────────────────┐
                          │              AWS CLOUD               │
                          │                                      │
@@ -62,6 +64,7 @@ Este projeto provisiona uma **infraestrutura completa na AWS** usando Terraform,
                          │  │  Bucket  │  │    Alarms       │   │
                          │  └──────────┘  └─────────────────┘   │
                          └─────────────────────────────────────┘
+```
 
 
 ### Fluxo da Aplicação:
@@ -76,28 +79,17 @@ Este projeto provisiona uma **infraestrutura completa na AWS** usando Terraform,
 
 ## 📁 Estrutura do Projeto
 terraform-project/
-│
 ├── modules/
-│ └── infra/ # Módulo reutilizável
-│ ├── main.tf # Recursos AWS principais
-│ ├── variables.tf # Variáveis de entrada
-│ └── outputs.tf # Valores de saída
-│
+│   └── infra/
+│       ├── main.tf
+│       ├── variables.tf
+│       └── outputs.tf
 ├── environments/
-│ ├── dev/ # Ambiente de desenvolvimento
-│ │ ├── main.tf # Chamada do módulo
-│ │ ├── providers.tf # Provider AWS
-│ │ ├── variables.tf # Declaração de variáveis
-│ │ ├── outputs.tf # Outputs do ambiente
-│ │ ├── backend.tf # State remoto no S3
-│ │ └── terraform.tfvars # Valores (NÃO COMMITAR!)
-│ │
-│ ├── hom/ # Ambiente de homologação
-│ └── prod/ # Ambiente de produção
-│
-├── .gitignore # Arquivos ignorados pelo Git
-└── README.md # Documentação
-
+│   ├── dev/
+│   ├── hom/
+│   └── prod/
+├── .gitignore
+└── README.md
 
 ---
 
@@ -157,7 +149,7 @@ terraform-project/
 | **Conta AWS** | Free Tier | [Criar conta](https://aws.amazon.com/free/) |
 
 
-👤 Autor
+## 👤 Autor
 João Victor Alves
 
 https://img.shields.io/badge/GitHub-joaoalves--dev-181717?style=for-the-badge&logo=github
