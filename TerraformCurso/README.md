@@ -11,7 +11,7 @@ Projeto de **Infraestrutura como Código (IaC)** utilizando Terraform para provi
 ## 📋 Índice
 
 - [Sobre o Projeto](#-sobre-o-projeto)        → ## 💡 Sobre o Projeto
-- [Arquitetura](#-arquitetura)                 → ## 🏗️ Arquitetura
+- [Arquitetura](#arquitetura)                 → ## 🏗️ Arquitetura
 - [Estrutura do Projeto](#-estrutura-do-projeto) → ## 📁 Estrutura do Projeto
 - [Recursos Provisionados](#-recursos-provisionados) → ## 🎯 Recursos Provisionados
 - [Pré-requisitos](#-pré-requisitos)           → ## 🔧 Pré-requisitos
@@ -78,18 +78,34 @@ Este projeto provisiona uma **infraestrutura completa na AWS** usando Terraform,
 ---
 
 ## 📁 Estrutura do Projeto
+
+```
 terraform-project/
+│
 ├── modules/
-│   └── infra/
-│       ├── main.tf
-│       ├── variables.tf
-│       └── outputs.tf
+│   └── infra/                      # Módulo reutilizável
+│       ├── main.tf                 # Recursos AWS principais
+│       ├── variables.tf            # Variáveis de entrada
+│       └── outputs.tf              # Valores de saída
+│
 ├── environments/
-│   ├── dev/
-│   ├── hom/
-│   └── prod/
-├── .gitignore
-└── README.md
+│   ├── dev/                        # Ambiente de desenvolvimento
+│   │   ├── main.tf                 # Chamada do módulo
+│   │   ├── providers.tf            # Provider AWS
+│   │   ├── variables.tf            # Declaração de variáveis
+│   │   ├── outputs.tf              # Outputs do ambiente
+│   │   ├── backend.tf              # State remoto no S3
+│   │   └── terraform.tfvars        # Valores (NÃO COMMITAR!)
+│   │
+│   ├── hom/                        # Ambiente de homologação
+│   │   └── ...
+│   │
+│   └── prod/                       # Ambiente de produção
+│       └── ...
+│
+├── .gitignore                      # Arquivos ignorados pelo Git
+└── README.md                       # Documentação
+```
 
 ---
 
