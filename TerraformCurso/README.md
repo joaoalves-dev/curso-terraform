@@ -10,12 +10,12 @@ Projeto de **Infraestrutura como Código (IaC)** utilizando Terraform para provi
 
 ## 📋 Índice
 
-- [Sobre o Projeto](#-sobre-o-projeto)        → ## 💡 Sobre o Projeto
-- [Arquitetura](#arquitetura)                 → ## 🏗️ Arquitetura
-- [Estrutura do Projeto](#-estrutura-do-projeto) → ## 📁 Estrutura do Projeto
-- [Recursos Provisionados](#-recursos-provisionados) → ## 🎯 Recursos Provisionados
-- [Pré-requisitos](#-pré-requisitos)           → ## 🔧 Pré-requisitos
-- [Autor](#-autor)                             → ## 👤 Autor
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Arquitetura](#arquitetura)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Recursos Provisionados](#recursos-provisionados)
+- [Pré-requisitos](#pré-requisitos)
+- [Autor](#autor)
 
 ---
 
