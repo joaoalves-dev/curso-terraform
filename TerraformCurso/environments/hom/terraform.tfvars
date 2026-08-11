@@ -1,0 +1,5 @@
+aws_region    = "us-east-1"
+aws_profile   = "default"
+environment   = "hom"
+project_name  = "meu-projeto"
+instance_type = "t2.micro"

@@ -1,0 +1,5 @@
+aws_region    = "us-east-1"
+aws_profile   = "default"
+environment   = "prod"
+project_name  = "meu-projeto"
+instance_type = "t3.medium"
