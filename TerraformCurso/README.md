@@ -159,7 +159,7 @@ terraform-project/
 
 ---
 
-## Pré-requisitos
+## Pre-requisitos
 
 | Ferramenta | Versão Mínima | Link |
 |------------|---------------|------|
