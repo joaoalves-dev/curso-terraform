@@ -14,12 +14,12 @@ Projeto de **Infraestrutura como Código (IaC)** utilizando Terraform para provi
 - [Arquitetura](#arquitetura)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Recursos Provisionados](#recursos-provisionados)
-- [Pré-requisitos](#pré-requisitos)
+- [Pré-requisitos](#pre-requisitos)
 - [Autor](#autor)
   
 ---
 
-## 💡 Sobre o Projeto
+## Sobre o Projeto
 
 Este projeto provisiona uma **infraestrutura completa na AWS** usando Terraform, com código modular e reutilizável para múltiplos ambientes.
 
@@ -35,7 +35,7 @@ Este projeto provisiona uma **infraestrutura completa na AWS** usando Terraform,
 
 ---
 
-## 🏗️ Arquitetura
+## Arquitetura
 
 ```mermaid
 graph TB
@@ -81,7 +81,7 @@ graph TB
 
 ---
 
-## 📁 Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 terraform-project/
@@ -113,7 +113,7 @@ terraform-project/
 
 ---
 
-## 🎯 Recursos Provisionados
+## Recursos Provisionados
 
 ### 🌐 Rede
 - VPC com DNS habilitado e CIDR configurável
@@ -159,7 +159,7 @@ terraform-project/
 
 ---
 
-## 🔧 Pré-requisitos
+## Pré-requisitos
 
 | Ferramenta | Versão Mínima | Link |
 |------------|---------------|------|
@@ -169,5 +169,5 @@ terraform-project/
 | **Conta AWS** | Free Tier | [Criar conta](https://aws.amazon.com/free/) |
 
 
-## 👤 Autor
+## Autor
 João Victor Alves.
