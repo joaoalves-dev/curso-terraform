@@ -4,104 +4,158 @@
 [![AWS](https://img.shields.io/badge/AWS-Free%20Tier-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)](https://aws.amazon.com/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-Projeto de **Infraestrutura como Código (IaC)** utilizando Terraform para provisionar recursos na AWS.
+Projeto de **Infraestrutura como Código (IaC)** utilizando Terraform para provisionar recursos na AWS. Desenvolvido para fins de estudo e aplicação de boas práticas DevOps.
+
+---
 
 ## 📋 Índice
 
-- [Sobre](#-sobre)
+- [Sobre o Projeto](#-sobre-o-projeto)
 - [Arquitetura](#-arquitetura)
-- [Estrutura](#-estrutura)
-- [Recursos](#-recursos)
+- [Estrutura do Projeto](#-estrutura-do-projeto)
+- [Recursos Provisionados](#-recursos-provisionados)
 - [Pré-requisitos](#-pré-requisitos)
-- [Como Usar](#-como-usar)
-- [Custos](#-custos)
-- [Comandos Úteis](#-comandos-úteis)
+- [Autor](#-autor)
 
-## 💡 Sobre
+---
 
-Este projeto provisiona uma infraestrutura completa na AWS usando Terraform:
+## 💡 Sobre o Projeto
 
-- 🌐 VPC, Subnets, Internet Gateway
-- ⚖️ Application Load Balancer
-- 📈 Auto Scaling Group
-- 🗄️ RDS MySQL
-- 📦 S3 Bucket
-- 📊 CloudWatch Alarms
+Este projeto provisiona uma **infraestrutura completa na AWS** usando Terraform, com código modular e reutilizável para múltiplos ambientes.
+
+### O que é criado:
+
+- 🌐 **Rede**: VPC, Subnets públicas e privadas, Internet Gateway
+- ⚖️ **Load Balancer**: Application Load Balancer (ALB)
+- 📈 **Auto Scaling**: EC2 escalando automaticamente conforme demanda
+- 🗄️ **Banco de Dados**: RDS MySQL 8.0 em subnet privada
+- 📦 **Armazenamento**: S3 Bucket com versionamento
+- 📊 **Monitoramento**: CloudWatch Alarms para CPU e Health Check
+- 🔐 **Segurança**: Security Groups, Key Pair SSH
+
+---
 
 ## 🏗️ Arquitetura
+┌──────────────────────────────────┐
+│ AWS Cloud │
+│ │
+Usuário ──────────────▶│ Application Load Balancer (ALB) │
+│ │ │
+│ Auto Scaling Group │
+│ ┌──────────┴───────────┐ │
+│ │ EC2 Instances │ │
+│ │ (Nginx + User Data) │ │
+│ └──────────┬───────────┘ │
+│ │ │
+│ Subnets Privadas │
+│ ┌──────────┴───────────┐ │
+│ │ RDS MySQL 8.0 │ │
+│ └──────────────────────┘ │
+│ │
+│ ┌──────────────────────┐ │
+│ │ S3 Bucket │ │
+│ └──────────────────────┘ │
+│ │
+│ ┌──────────────────────┐ │
+│ │ CloudWatch Alarms │ │
+│ └──────────────────────┘ │
+└──────────────────────────────────┘
 
-Usuário → ALB → Auto Scaling (EC2 + Nginx) → RDS (MySQL)
-                    ↓
-              S3 + CloudWatch
 
-## 📁 Estrutura
+### Fluxo da Aplicação:
+1. Usuário acessa via internet
+2. ALB distribui o tráfego entre as instâncias
+3. Auto Scaling ajusta número de EC2 conforme CPU
+4. EC2 processa com Nginx instalado automaticamente
+5. RDS armazenado em subnet privada (sem acesso externo)
+6. CloudWatch monitora e dispara alarmes
+
+---
+
+## 📁 Estrutura do Projeto
 terraform-project/
-├── modules/infra/ # Módulo reutilizável
-│ ├── main.tf
-│ ├── variables.tf
-│ └── outputs.tf
+│
+├── modules/
+│ └── infra/ # Módulo reutilizável
+│ ├── main.tf # Recursos AWS principais
+│ ├── variables.tf # Variáveis de entrada
+│ └── outputs.tf # Valores de saída
+│
 ├── environments/
-│ ├── dev/ # Desenvolvimento
-│ ├── hom/ # Homologação
-│ └── prod/ # Produção
-├── .gitignore
-└── README.md
+│ ├── dev/ # Ambiente de desenvolvimento
+│ │ ├── main.tf # Chamada do módulo
+│ │ ├── providers.tf # Provider AWS
+│ │ ├── variables.tf # Declaração de variáveis
+│ │ ├── outputs.tf # Outputs do ambiente
+│ │ ├── backend.tf # State remoto no S3
+│ │ └── terraform.tfvars # Valores (NÃO COMMITAR!)
+│ │
+│ ├── hom/ # Ambiente de homologação
+│ └── prod/ # Ambiente de produção
+│
+├── .gitignore # Arquivos ignorados pelo Git
+└── README.md # Documentação
 
 
-## 🎯 Recursos
+---
 
-| Categoria | Recursos |
-|-----------|----------|
-| 🌐 Rede | VPC, 2 subnets públicas, 2 privadas, IGW, NAT |
-| 💻 Computação | Launch Template, ASG, ALB |
-| 🗄️ Banco | RDS MySQL 8.0 em subnet privada |
-| 📦 Storage | S3 com versionamento |
-| 📊 Monitor | CloudWatch Alarms (CPU, Health) |
+## 🎯 Recursos Provisionados
+
+### 🌐 Rede
+- VPC com DNS habilitado e CIDR configurável
+- 2 Subnets públicas (com acesso à internet)
+- 2 Subnets privadas (isoladas)
+- Internet Gateway para acesso externo
+- NAT Gateway (apenas em produção)
+- Route Tables públicas e privadas
+
+### 💻 Computação
+- Launch Template com Ubuntu 20.04
+- Auto Scaling Group (1 a 3 instâncias)
+- Application Load Balancer (ALB)
+- Target Group com health check HTTP
+- User Data: Nginx instalado automaticamente
+- Key Pair para acesso SSH
+
+### 🗄️ Banco de Dados
+- RDS MySQL 8.0
+- db.t3.micro (dev/hom) ou db.t3.small (prod)
+- 20GB de storage
+- Localizado em subnet privada
+- Security Group dedicado (acesso só das EC2)
+
+### 📦 Armazenamento
+- S3 Bucket único por ambiente
+- Versionamento habilitado (produção)
+- Bloqueio total de acesso público
+- Criptografia AES-256
+
+### 📊 Monitoramento
+- CloudWatch Alarm: CPU > 70% (scale up)
+- CloudWatch Alarm: CPU < 23% (scale down)
+- CloudWatch Alarm: Status Check Failed
+- Auto Scaling Policies (aumenta/diminui)
+- Schedules: desliga à noite em dev (22h-7h)
+
+### 🔐 Segurança
+- Security Groups para EC2, RDS e ALB
+- SSH liberado apenas em dev e hom
+- Senhas marcadas como sensitive
+- S3 bloqueado publicamente
+
+---
 
 ## 🔧 Pré-requisitos
 
-- Terraform 1.5+
-- AWS CLI configurado
-- Conta AWS (Free Tier)
+| Ferramenta | Versão Mínima | Link |
+|------------|---------------|------|
+| **Terraform** | 1.5+ | [Download](https://www.terraform.io/downloads) |
+| **AWS CLI** | 2.0+ | [Download](https://aws.amazon.com/cli/) |
+| **Git** | 2.0+ | [Download](https://git-scm.com/) |
+| **Conta AWS** | Free Tier | [Criar conta](https://aws.amazon.com/free/) |
 
-```bash
-terraform version
-aws --version
-
-🚀 Como Usar
-# 1. Clone
-git clone https://github.com/seu-usuario/terraform-project.git
-cd terraform-project/environments/dev
-
-# 2. Configure
-cp terraform.tfvars.example terraform.tfvars
-# Edite terraform.tfvars com seus valores
-
-# 3. Execute
-terraform init
-terraform plan
-terraform apply
-
-# 4. Acesse
-terraform output alb_dns_name
-
-💰 Custos
-Com conta nova (12 meses grátis): TOTAL = R$ 0,00
-
-Recurso	Free Tier
-EC2 t3.micro	750h/mês
-RDS db.t3.micro	750h/mês
-ALB	750h/mês
-S3	5GB
-
-📝 Comandos Úteis
-bash
-terraform fmt -recursive    # Formatar
-terraform validate          # Validar
-terraform state list        # Ver recursos
-terraform output            # Ver outputs
-terraform destroy           # Destruir tudo
 
 👤 Autor
 João Victor Alves
-GitHub: https://github.com/joaoalves-dev/
+
+https://img.shields.io/badge/GitHub-joaoalves--dev-181717?style=for-the-badge&logo=github
