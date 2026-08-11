@@ -37,34 +37,37 @@ Este projeto provisiona uma **infraestrutura completa na AWS** usando Terraform,
 
 ## 🏗️ Arquitetura
 
-```text
-                         ┌─────────────────────────────────────┐
-                         │              AWS CLOUD               │
-                         │                                      │
-    👤 USUÁRIO ─────────▶│  ┌──────────────────────────────┐   │
-                         │  │   Application Load Balancer   │   │
-                         │  │          (ALB)                │   │
-                         │  └──────────────┬───────────────┘   │
-                         │                 │                    │
-                         │  ┌──────────────┴───────────────┐   │
-                         │  │     Auto Scaling Group        │   │
-                         │  │   ┌──────────┐ ┌──────────┐  │   │
-                         │  │   │  EC2     │ │  EC2     │  │   │
-                         │  │   │  AZ1     │ │  AZ2     │  │   │
-                         │  │   │  Nginx   │ │  Nginx   │  │   │
-                         │  │   └────┬─────┘ └────┬─────┘  │   │
-                         │  └─────────┼────────────┼────────┘   │
-                         │            │            │             │
-                         │  ┌─────────┴────────────┴────────┐   │
-                         │  │       RDS MySQL (Privado)     │   │
-                         │  └───────────────────────────────┘   │
-                         │                                      │
-                         │  ┌──────────┐  ┌─────────────────┐   │
-                         │  │   S3     │  │   CloudWatch    │   │
-                         │  │  Bucket  │  │    Alarms       │   │
-                         │  └──────────┘  └─────────────────┘   │
-                         └─────────────────────────────────────┘
-```
+graph TB
+    subgraph "AWS Cloud"
+        User["👤 Usuário"] --> ALB["⚖️ Application Load Balancer"]
+        
+        ALB --> ASG["📈 Auto Scaling Group"]
+        
+        subgraph "Subnets Públicas"
+            ASG --> EC2_1["💻 EC2 - AZ1<br/>Nginx"]
+            ASG --> EC2_2["💻 EC2 - AZ2<br/>Nginx"]
+        end
+        
+        EC2_1 --> RDS["🗄️ RDS MySQL<br/>Subnet Privada"]
+        EC2_2 --> RDS
+        
+        EC2_1 --> S3["📦 S3 Bucket"]
+        EC2_2 --> S3
+        
+        CW["📊 CloudWatch"] -.-> ASG
+        CW -.-> EC2_1
+        CW -.-> EC2_2
+        CW -.-> RDS
+    end
+    
+    style User fill:#4CAF50,color:#fff
+    style ALB fill:#FF9800,color:#fff
+    style ASG fill:#2196F3,color:#fff
+    style EC2_1 fill:#FF5722,color:#fff
+    style EC2_2 fill:#FF5722,color:#fff
+    style RDS fill:#9C27B0,color:#fff
+    style S3 fill:#00BCD4,color:#fff
+    style CW fill:#607D8B,color:#fff
 
 
 ### Fluxo da Aplicação:
