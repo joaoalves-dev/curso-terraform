@@ -14,7 +14,7 @@ Projeto de **Infraestrutura como Código (IaC)** utilizando Terraform para provi
 - [Arquitetura](#arquitetura)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Recursos Provisionados](#recursos-provisionados)
-- [Pré-requisitos](#pre-requisitos)
+- [Pre-requisitos](#pre-requisitos)
 - [Autor](#autor)
   
 ---
